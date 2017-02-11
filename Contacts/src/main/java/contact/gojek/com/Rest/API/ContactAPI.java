@@ -6,6 +6,7 @@ import contact.gojek.com.Model.Contacts;
 import contact.gojek.com.Rest.ApiClient;
 import contact.gojek.com.Rest.Interface.ContactsAPIService;
 import retrofit2.Call;
+import rx.Observable;
 
 /**
  * Created by Pankaj on 11/02/17.
@@ -28,11 +29,11 @@ public class ContactAPI {
         return contactAPI;
     }
 
-    public Call<List<Contacts>> getAllContacts(){
+    public Observable<List<Contacts>> getAllContacts(){
         return contactsAPIService.getAllContactList();
     }
 
-    public Call<List<Contacts>> getContactByContactId(int contactId){
+    public Observable<List<Contacts>> getContactByContactId(int contactId){
         return contactsAPIService.getContactByContactId(contactId);
     }
 }

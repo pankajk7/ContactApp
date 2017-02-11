@@ -1,48 +1,74 @@
 package contact.gojek.com.Activities;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.widget.Toast;
 
 import java.util.List;
 
+import contact.gojek.com.Adapters.ContactListAdapter;
 import contact.gojek.com.Model.Contacts;
 import contact.gojek.com.R;
 import contact.gojek.com.Rest.API.ContactAPI;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import rx.Observable;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class ContactListActivity extends AppCompatActivity {
 
     RecyclerView rvContacts;
+
+    ContactListAdapter contactListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_list);
 
+        initialiseView();
+
+        getAllContacts();
+    }
+
+    private void getAllContacts(){
+        Observable<List<Contacts>> call = ContactAPI.getInstance().getAllContacts();
+        call.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(observer);
+    }
+
+    Observer<List<Contacts>> observer = new Observer<List<Contacts>>() {
+
+        @Override
+        public void onNext(List<Contacts> contactList) {
+            if(contactList == null) return;
+            setAdapter(contactList);
+        }
+
+        @Override
+        public void onCompleted() {
+
+        }
+
+        @Override
+        public void onError(Throwable e) {
+        }
+    };
+
+    private void initialiseView(){
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        rvContacts = (RecyclerView) findViewById(R.id.rv_contact_list);
+    }
 
-        Call<List<Contacts>> call = ContactAPI.getInstance().getAllContacts();
-        call.enqueue(new Callback<List<Contacts>>() {
-            @Override
-            public void onResponse(Call<List<Contacts>> call, Response<List<Contacts>> response) {
-                if(isFinishing()) return;
-
-                if(!response.isSuccessful()) return;
-                List<Contacts> contactList = response.body();
-                if(contactList == null || contactList.size() <= 0) return;
-
-            }
-
-            @Override
-            public void onFailure(Call<List<Contacts>> call, Throwable t) {
-                Log.d("Failure: ", t.getMessage()+"");
-            }
-        });
+    private void setAdapter(List<Contacts> contactList){
+        contactListAdapter = new ContactListAdapter(this, contactList);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        rvContacts.setLayoutManager(mLayoutManager);
+        rvContacts.setAdapter(contactListAdapter);
     }
 }
