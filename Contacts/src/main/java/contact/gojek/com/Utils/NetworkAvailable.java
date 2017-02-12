@@ -12,6 +12,9 @@ public class NetworkAvailable {
     public static boolean isNetworkAvailable(Context context) {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+        boolean isAvailable = activeNetworkInfo != null && activeNetworkInfo.isConnected();
+        if (!isAvailable)
+            ToastUtil.show(context, "No network, please try again later");
+        return isAvailable;
     }
 }

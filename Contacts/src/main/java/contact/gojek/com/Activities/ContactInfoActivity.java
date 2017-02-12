@@ -4,11 +4,13 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -24,16 +26,22 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
+import contact.gojek.com.Database.ContactDatabaseHelper;
+import contact.gojek.com.Database.ProfileInfoDatabaseHelper;
+import contact.gojek.com.DbResources.ProfileInfoTable;
 import contact.gojek.com.Model.ContactProfile;
 import contact.gojek.com.Model.Contacts;
 import contact.gojek.com.R;
 import contact.gojek.com.Rest.API.ContactAPI;
+import contact.gojek.com.Rest.NetworkObserver;
+import contact.gojek.com.Utils.NetworkAvailable;
 import contact.gojek.com.Utils.ToastUtil;
 import okhttp3.RequestBody;
 import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func0;
 import rx.schedulers.Schedulers;
 
 public class ContactInfoActivity extends AppCompatActivity implements View.OnClickListener,
@@ -65,7 +73,7 @@ public class ContactInfoActivity extends AppCompatActivity implements View.OnCli
         extractArguments();
         initialiseView();
         setListeners();
-        fetchProfileInfo();
+        checkDbAndGetInfo();
     }
 
     private void extractArguments() {
@@ -92,14 +100,69 @@ public class ContactInfoActivity extends AppCompatActivity implements View.OnCli
         tvEmail.setOnClickListener(this);
     }
 
-    private void checkDbAndGetInfo(){
+    private void checkDbAndGetInfo() {
+        if (contact == null) return;
 
+        if (subscription != null) {
+            subscription.unsubscribe();
+            subscription = null;
+        }
+        if (progress == null)
+            progress = new ProgressDialog(ContactInfoActivity.this);
+        progress.setMessage(getString(R.string.fetching_profile_info));
+        progress.show();
+
+        // Starting Background Thread using RxJava for db operation
+        subscription = Observable.defer(new Func0<Observable<ContactProfile>>() {
+            @Override
+            public Observable<ContactProfile> call() {
+                return Observable.just(new ProfileInfoDatabaseHelper(ContactInfoActivity.this)
+                        .getContactInfo(contact.getContactsId()));
+            }
+        }).subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new NetworkObserver<ContactProfile>() {
+                    @Override
+                    public void onNext(ContactProfile object) {
+                        if (object == null) {
+                            if (NetworkAvailable.isNetworkAvailable(ContactInfoActivity.this)) {
+                                fetchProfileInfo();
+                            } else {
+                                llMainView.setVisibility(View.GONE);
+                                llFailureView.setVisibility(View.VISIBLE);
+                            }
+                            return;
+                        }
+                        contactProfile = object;
+                        setViews();
+                        if (NetworkAvailable.isNetworkAvailable(ContactInfoActivity.this))
+                            fetchProfileInfo();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        if (progress != null && progress.isShowing()) {
+                            progress.dismiss();
+                            progress = null;
+                        }
+                        fetchProfileInfo();
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                        if (progress != null && progress.isShowing()) {
+                            progress.dismiss();
+                            progress = null;
+                        }
+                    }
+                });
     }
 
     private void fetchProfileInfo() {
         if (contact == null) return;
 
-        progress = new ProgressDialog(this);
+        if (progress == null)
+            progress = new ProgressDialog(ContactInfoActivity.this);
         progress.setMessage(getString(R.string.fetching_profile_info));
         progress.show();
         Observable<ContactProfile> call = ContactAPI.getInstance()
@@ -120,7 +183,7 @@ public class ContactInfoActivity extends AppCompatActivity implements View.OnCli
         cbName.setOnCheckedChangeListener(this);
         tvNumber.setText(contactProfile.getPhoneNumber());
         tvEmail.setText(contactProfile.getEmail());
-        Glide.with(this).load(contact.getProfilePic()).asBitmap().centerCrop()
+        Glide.with(ContactInfoActivity.this).load(contact.getProfilePic()).asBitmap().centerCrop()
                 .placeholder(R.drawable.ic_profile_pic)
                 .into(new BitmapImageViewTarget(ivProfilePic) {
                     @Override
@@ -129,6 +192,19 @@ public class ContactInfoActivity extends AppCompatActivity implements View.OnCli
                                 RoundedBitmapDrawableFactory.create(getResources(), resource);
                         circularBitmapDrawable.setCircular(true);
                         ivProfilePic.setImageDrawable(circularBitmapDrawable);
+                        if (progress != null && progress.isShowing()) {
+                            progress.dismiss();
+                            progress = null;
+                        }
+                    }
+
+                    @Override
+                    public void onLoadFailed(Exception e, Drawable errorDrawable) {
+                        super.onLoadFailed(e, errorDrawable);
+                        if (progress != null && progress.isShowing()) {
+                            progress.dismiss();
+                            progress = null;
+                        }
                     }
                 });
     }
@@ -136,13 +212,18 @@ public class ContactInfoActivity extends AppCompatActivity implements View.OnCli
     Observer<ContactProfile> observer = new Observer<ContactProfile>() {
         @Override
         public void onCompleted() {
-
+            if (progress != null && progress.isShowing()) {
+                progress.dismiss();
+                progress = null;
+            }
         }
 
         @Override
         public void onError(Throwable e) {
-            if (progress != null && progress.isShowing())
+            if (progress != null && progress.isShowing()) {
                 progress.dismiss();
+                progress = null;
+            }
             llMainView.setVisibility(View.GONE);
             llFailureView.setVisibility(View.VISIBLE);
         }
@@ -155,9 +236,17 @@ public class ContactInfoActivity extends AppCompatActivity implements View.OnCli
                 llFailureView.setVisibility(View.VISIBLE);
                 return;
             }
+            ProfileInfoDatabaseHelper db = new ProfileInfoDatabaseHelper(ContactInfoActivity.this);
+            ContactProfile objContactProfile = db.getContactInfo(object.getProfileId());
+            if (objContactProfile != null)
+                db.updateProfileInfo(contactProfile);
+            else
+                db.insertProfileInfo(contactProfile);
             setViews();
-            if (progress != null && progress.isShowing())
+            if (progress != null && progress.isShowing()) {
                 progress.dismiss();
+                progress = null;
+            }
         }
     };
 
@@ -166,7 +255,7 @@ public class ContactInfoActivity extends AppCompatActivity implements View.OnCli
         Intent intent;
         switch (view.getId()) {
             case R.id.btn_retry:
-                fetchProfileInfo();
+                checkDbAndGetInfo();
                 break;
             case R.id.tv_number:
                 intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts(
@@ -185,18 +274,20 @@ public class ContactInfoActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-            saveFavorite(isChecked);
+        saveFavorite(isChecked);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(progress != null && progress.isShowing())
+        if (progress != null && progress.isShowing()) {
             progress.dismiss();
+            progress = null;
+        }
     }
 
     private void saveFavorite(boolean isFavorite) {
-        progress = new ProgressDialog(this);
+        progress = new ProgressDialog(ContactInfoActivity.this);
         progress.setMessage(getString(R.string.fetching_profile_info));
         progress.show();
         HashMap<String, Object> map = new HashMap<>(1);

@@ -81,6 +81,7 @@ public class ContactListActivity extends AppCompatActivity implements View.OnCli
                         e.printStackTrace();
                         if (progress != null && progress.isShowing())
                             progress.dismiss();
+                        getAllContacts();
                     }
 
                     @Override
