@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="dlg_attach_types_array">
+        <item>Take Photo</item>
+        <item>From Library</item>
+    </string-array>
+</resources>

@@ -97,13 +97,13 @@ public class ContactInfoActivity extends AppCompatActivity {
     Observer<ContactProfile> observer = new Observer<ContactProfile>() {
         @Override
         public void onCompleted() {
-            if(progress!= null)
+            if(progress != null && progress.isShowing())
                 progress.dismiss();
         }
 
         @Override
         public void onError(Throwable e) {
-            if(progress!= null)
+            if(progress != null && progress.isShowing())
                 progress.dismiss();
         }
 

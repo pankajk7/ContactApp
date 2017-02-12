@@ -5,7 +5,7 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/colorPrimary</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -25,5 +25,22 @@
     <style name="TextView_Header" parent="TextView_Normal">
         <item name="android:textSize">@dimen/text_xtra_large</item>
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="EditText_Normal" parent="@android:style/TextAppearance.Widget.EditText">
+        <item name="android:textColor">@color/dark_gray</item>
+        <item name="android:textSize">@dimen/text_large</item>
+        <item name="android:layout_marginLeft">@dimen/view_big_margin</item>
+        <item name="android:layout_marginRight">@dimen/view_big_margin</item>
+        <item name="android:layout_marginTop">@dimen/view_small_margin</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:layout_marginBottom">@dimen/view_small_margin</item>
+    </style>
+    
+    <style name="Button_normal" parent="@android:style/TextAppearance.Widget.Button">
+        <item name="android:background">?attr/selectableItemBackground</item>
+        <item name="android:textColor">@color/dark_gray</item>
+        <item name="android:textSize">@dimen/text_large</item>
     </style>
 </resources>

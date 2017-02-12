@@ -1,11 +1,14 @@
 package contact.gojek.com.Activities;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -20,8 +23,9 @@ import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class ContactListActivity extends AppCompatActivity {
+public class ContactListActivity extends AppCompatActivity implements View.OnClickListener{
 
+    FloatingActionButton fab;
     RecyclerView rvContacts;
 
     ContactListAdapter contactListAdapter;
@@ -33,7 +37,7 @@ public class ContactListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_contact_list);
 
         initialiseView();
-
+        setListeners();
         getAllContacts();
     }
 
@@ -63,13 +67,13 @@ public class ContactListActivity extends AppCompatActivity {
 
         @Override
         public void onCompleted() {
-            if (progress != null)
+            if(progress != null && progress.isShowing())
                 progress.dismiss();
         }
 
         @Override
         public void onError(Throwable e) {
-            if (progress != null)
+            if(progress != null && progress.isShowing())
                 progress.dismiss();
         }
     };
@@ -78,6 +82,11 @@ public class ContactListActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         rvContacts = (RecyclerView) findViewById(R.id.rv_contact_list);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+    }
+
+    private void setListeners() {
+        fab.setOnClickListener(this);
     }
 
     private void setAdapter(List<Contacts> contactList) {
@@ -85,5 +94,10 @@ public class ContactListActivity extends AppCompatActivity {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         rvContacts.setLayoutManager(mLayoutManager);
         rvContacts.setAdapter(contactListAdapter);
+    }
+
+    @Override
+    public void onClick(View view) {
+        startActivity(new Intent(this, AddContactActivity.class));
     }
 }
