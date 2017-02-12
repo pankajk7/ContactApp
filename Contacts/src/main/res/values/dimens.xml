@@ -11,6 +11,7 @@
     <dimen name="iv_height">@dimen/iv_width</dimen>
     <dimen name="iv_profile_pic_height">150dp</dimen>
     <dimen name="iv_row_height">72dp</dimen>
+    <dimen name="view_height">48dp</dimen>
 
     <dimen name="text_regular">14sp</dimen>
     <dimen name="text_large">16sp</dimen>

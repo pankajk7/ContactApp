@@ -22,7 +22,8 @@
         <item name="android:gravity">center</item>
     </style>
 
-    <style name="TextView_Header" parent="TextView_Normal">
+    <style name="TextView_Header" parent="@android:style/TextAppearance.Widget.TextView">
+        <item name="android:textColor">@color/dark_gray</item>
         <item name="android:textSize">@dimen/text_xtra_large</item>
         <item name="android:textStyle">bold</item>
     </style>
@@ -39,8 +40,8 @@
     </style>
     
     <style name="Button_normal" parent="@android:style/TextAppearance.Widget.Button">
-        <item name="android:background">?attr/selectableItemBackground</item>
-        <item name="android:textColor">@color/dark_gray</item>
+        <item name="android:textColor">@color/white</item>
         <item name="android:textSize">@dimen/text_large</item>
+        <item name="android:textAllCaps">true</item>
     </style>
 </resources>

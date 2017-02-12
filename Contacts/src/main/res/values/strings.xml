@@ -13,6 +13,10 @@
     <string name="saving_info">Saving Info</string>
     <string name="dlg_select_attach_type">Choose Attachment</string>
     <string name="uploading_image">Uploading Image...</string>
+    <string name="info_not_found_please_retry_again">Info not found, please retry again</string>
+    <string name="retry">Retry</string>
+    <string name="first_name_validation_message">Please enter first name with atleast 3 characters</string>
+    <string name="mobile_number_not_valid">Mobile Phone Number not valid</string>
 
     <!-- For setting tag in Adapter -->
     <item name="iv_tag" type="id" />

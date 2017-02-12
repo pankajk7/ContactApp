@@ -12,6 +12,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import rx.Observable;
 
@@ -29,4 +30,7 @@ public interface ContactsAPIService {
 
     @POST("contacts.json")
     Observable<ContactProfile> saveContactInfo(@Body RequestBody body);
+
+    @PUT("contacts/{contact_id}.json")
+    Observable<ContactProfile> saveFavorite(@Path("contact_id")int contactId, @Body RequestBody body);
 }

@@ -4,30 +4,73 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="@dimen/view_big_margin"
-    android:gravity="center_horizontal"
     android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/iv_profle_pic"
-        android:layout_width="@dimen/iv_profile_pic_height"
-        android:layout_height="@dimen/iv_profile_pic_height"
-        android:src="@drawable/ic_profile_pic"/>
-
-    <TextView
-        style="@style/TextView_Header"
-        android:id="@+id/tv_name"
+    <LinearLayout
+        android:id="@+id/ll_main_content"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
 
-    <TextView
-        style="@style/TextView_Normal"
-        android:id="@+id/tv_number"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        <ImageView
+            android:id="@+id/iv_profle_pic"
+            android:layout_width="@dimen/iv_profile_pic_height"
+            android:layout_height="@dimen/iv_profile_pic_height"
+            android:src="@drawable/ic_profile_pic" />
 
-    <TextView
-        style="@style/TextView_Normal"
-        android:id="@+id/tv_email"
+        <CheckBox
+            android:id="@+id/cb_name"
+            style="@style/TextView_Header"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/view_height"
+            android:button="@drawable/checkbox_selector"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:gravity="left|center" />
+
+        <TextView
+            android:id="@+id/tv_number"
+            style="@style/TextView_Normal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_phone"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:drawablePadding="@dimen/view_medium_margin" />
+
+        <TextView
+            android:id="@+id/tv_email"
+            style="@style/TextView_Normal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_email"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:drawablePadding="@dimen/view_medium_margin" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_failure"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tv_failure"
+            style="@style/TextView_Normal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/info_not_found_please_retry_again" />
+
+        <Button
+            android:id="@+id/btn_retry"
+            style="@style/Button_normal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_round_corner"
+            android:text="@string/retry" />
+    </LinearLayout>
 </LinearLayout>

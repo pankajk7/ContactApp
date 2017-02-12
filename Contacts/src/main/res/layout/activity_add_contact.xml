@@ -19,7 +19,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/first_name"
-        android:text="Heisenberg"/>
+        android:singleLine="true"
+        android:maxLines="1"/>
 
     <EditText
         style="@style/EditText_Normal"
@@ -27,7 +28,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/last_name"
-        android:text="Heisenberg"/>
+        android:singleLine="true"
+        android:maxLines="1"/>
 
     <EditText
         style="@style/EditText_Normal"
@@ -35,7 +37,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/mobile_number"
-        android:text="9090909090"/>
+        android:maxLength="15"
+        android:singleLine="true"
+        android:maxLines="1"
+        android:inputType="phone"/>
 
     <EditText
         style="@style/EditText_Normal"
@@ -43,6 +48,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/email_address"
+        android:maxLength="70"
+        android:singleLine="true"
+        android:maxLines="1"
+        android:inputType="textEmailAddress"
         android:text="Heisenberg@exaple.com"/>
 
     <Button
@@ -50,7 +59,6 @@
         android:id="@+id/btn_save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAllCaps="true"
         android:textSize="@dimen/text_regular"
         android:textColor="@color/white"
         android:text="@string/save"

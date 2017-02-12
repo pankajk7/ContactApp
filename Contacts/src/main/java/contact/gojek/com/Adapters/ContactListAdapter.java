@@ -15,6 +15,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import contact.gojek.com.Activities.ContactInfoActivity;
@@ -67,6 +69,23 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
         holder.textView.setText(contact.getFirstName() + " " + contact.getLastName());
         holder.textView.setTag(R.id.iv_tag, position);
         holder.imageView.setTag(R.id.iv_tag, position);
+    }
+
+    public void addContactList(List<Contacts> contactList){
+        this.contactList.clear();
+        this.contactList = contactList;
+        notifyDataSetChanged();
+    }
+
+    public void addSingleContact(Contacts contact){
+        contactList.add(contact);
+        Collections.sort(contactList, new Comparator<Contacts>() {
+            @Override
+            public int compare(Contacts contact1, Contacts contact2) {
+                return contact1.getFirstName().compareToIgnoreCase(contact2.getFirstName());
+            }
+        });
+        notifyDataSetChanged();
     }
 
     @Override

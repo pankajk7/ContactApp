@@ -41,7 +41,11 @@ public class ContactAPI {
         return contactsAPIService.getContactByContactId(contactId);
     }
 
-    public Observable<ContactProfile> saveContactInfo(RequestBody map){
-        return contactsAPIService.saveContactInfo(map);
+    public Observable<ContactProfile> saveContactInfo(RequestBody body){
+        return contactsAPIService.saveContactInfo(body);
+    }
+
+    public Observable<ContactProfile> saveFavorite(int contactId, RequestBody body){
+        return contactsAPIService.saveFavorite(contactId, body);
     }
 }
