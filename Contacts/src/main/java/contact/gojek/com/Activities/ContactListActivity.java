@@ -5,8 +5,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.widget.Toast;
+import android.view.View;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import contact.gojek.com.Adapters.ContactListAdapter;
@@ -46,6 +48,12 @@ public class ContactListActivity extends AppCompatActivity {
         @Override
         public void onNext(List<Contacts> contactList) {
             if(contactList == null) return;
+            Collections.sort(contactList, new Comparator<Contacts>() {
+                @Override
+                public int compare(Contacts contact1, Contacts contact2) {
+                    return contact1.getFirstName().compareToIgnoreCase(contact2.getFirstName());
+                }
+            });
             setAdapter(contactList);
         }
 
