@@ -2,11 +2,13 @@ package contact.gojek.com.Model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by Pankaj on 11/02/17.
  */
 
-public class Contacts {
+public class Contacts implements Serializable{
 
     @SerializedName("id")
     int contactsId;

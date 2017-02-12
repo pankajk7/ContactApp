@@ -1,11 +1,11 @@
 package contact.gojek.com.Activities;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -25,6 +25,7 @@ public class ContactListActivity extends AppCompatActivity {
     RecyclerView rvContacts;
 
     ContactListAdapter contactListAdapter;
+    ProgressDialog progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +37,10 @@ public class ContactListActivity extends AppCompatActivity {
         getAllContacts();
     }
 
-    private void getAllContacts(){
+    private void getAllContacts() {
+        progress = new ProgressDialog(this);
+        progress.setMessage(getString(R.string.fetching_profile_info));
+        progress.show();
         Observable<List<Contacts>> call = ContactAPI.getInstance().getAllContacts();
         call.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -47,7 +51,7 @@ public class ContactListActivity extends AppCompatActivity {
 
         @Override
         public void onNext(List<Contacts> contactList) {
-            if(contactList == null) return;
+            if (contactList == null) return;
             Collections.sort(contactList, new Comparator<Contacts>() {
                 @Override
                 public int compare(Contacts contact1, Contacts contact2) {
@@ -59,21 +63,24 @@ public class ContactListActivity extends AppCompatActivity {
 
         @Override
         public void onCompleted() {
-
+            if (progress != null)
+                progress.dismiss();
         }
 
         @Override
         public void onError(Throwable e) {
+            if (progress != null)
+                progress.dismiss();
         }
     };
 
-    private void initialiseView(){
+    private void initialiseView() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         rvContacts = (RecyclerView) findViewById(R.id.rv_contact_list);
     }
 
-    private void setAdapter(List<Contacts> contactList){
+    private void setAdapter(List<Contacts> contactList) {
         contactListAdapter = new ContactListAdapter(this, contactList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         rvContacts.setLayoutManager(mLayoutManager);

@@ -2,6 +2,7 @@ package contact.gojek.com.Rest.API;
 
 import java.util.List;
 
+import contact.gojek.com.Model.ContactProfile;
 import contact.gojek.com.Model.Contacts;
 import contact.gojek.com.Rest.ApiClient;
 import contact.gojek.com.Rest.Interface.ContactsAPIService;
@@ -33,7 +34,7 @@ public class ContactAPI {
         return contactsAPIService.getAllContactList();
     }
 
-    public Observable<List<Contacts>> getContactByContactId(int contactId){
+    public Observable<ContactProfile> getContactByContactId(int contactId){
         return contactsAPIService.getContactByContactId(contactId);
     }
 }

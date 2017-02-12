@@ -21,7 +21,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.ContactInfoActivity"></activity>
+        <activity
+            android:name=".Activities.ContactInfoActivity"
+            android:label="Contact Info" />
+        <activity android:name=".Activities.AddContactActivity"></activity>
     </application>
 
 </manifest>

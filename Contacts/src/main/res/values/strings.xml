@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Contacts Go-Jek</string>
+    <string name="fetching_contacts">Fetching Contacts...</string>
+    <string name="not_able_fetch_info">Not able to fetch info</string>
+    <string name="fetching_profile_info">Fetching Profile Info</string>
+
+    <!-- For setting tag in Adapter -->
+    <item name="iv_tag" type="id" />
 </resources>

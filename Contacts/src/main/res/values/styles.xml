@@ -14,4 +14,16 @@
     </style>
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="TextView_Normal" parent="@android:style/TextAppearance.Widget.TextView">
+        <item name="android:textColor">@color/dark_gray</item>
+        <item name="android:textSize">@dimen/text_large</item>
+        <item name="android:layout_margin">@dimen/view_big_margin</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="TextView_Header" parent="TextView_Normal">
+        <item name="android:textSize">@dimen/text_xtra_large</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 </resources>

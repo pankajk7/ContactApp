@@ -2,6 +2,7 @@ package contact.gojek.com.Rest.Interface;
 
 import java.util.List;
 
+import contact.gojek.com.Model.ContactProfile;
 import contact.gojek.com.Model.Contacts;
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -18,5 +19,5 @@ public interface ContactsAPIService {
     Observable<List<Contacts>> getAllContactList();
 
     @GET("contacts/{contact_id}.json")
-    Observable<List<Contacts>> getContactByContactId(@Path("contact_id") int contactId);
+    Observable<ContactProfile> getContactByContactId(@Path("contact_id") int contactId);
 }
