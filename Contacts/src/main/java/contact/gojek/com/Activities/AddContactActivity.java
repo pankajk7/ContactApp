@@ -11,8 +11,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,9 +20,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.cloudinary.Cloudinary;
-import com.cloudinary.Uploader;
 import com.cloudinary.utils.ObjectUtils;
-import com.google.gson.Gson;
 
 import org.json.JSONObject;
 
@@ -34,7 +30,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import contact.gojek.com.AsynTasks.ReceiveFileFromBitmapTask;
@@ -48,13 +43,8 @@ import contact.gojek.com.Utils.ContactValidationUtil;
 import contact.gojek.com.Utils.DialogUtils;
 import contact.gojek.com.Utils.ImageUtil;
 import contact.gojek.com.Utils.ToastUtil;
-import okhttp3.MediaType;
 import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
 import rx.Observable;
-import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 

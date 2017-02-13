@@ -6,13 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import contact.gojek.com.DbResources.ContactTable;
 import contact.gojek.com.DbResources.ProfileInfoTable;
 import contact.gojek.com.Model.ContactProfile;
-import contact.gojek.com.Model.Contacts;
 
 /**
  * Created by Pankaj on 13/02/17.

@@ -1,6 +1,5 @@
 package contact.gojek.com.Rest.API;
 
-import java.util.HashMap;
 import java.util.List;
 
 import contact.gojek.com.Model.ContactProfile;
@@ -8,8 +7,6 @@ import contact.gojek.com.Model.Contacts;
 import contact.gojek.com.Rest.ApiClient;
 import contact.gojek.com.Rest.Interface.ContactsAPIService;
 import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
 import rx.Observable;
 
 /**

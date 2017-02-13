@@ -1,9 +1,7 @@
 package contact.gojek.com.Utils;
 
 import android.content.Context;
-import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
-import android.util.Patterns;
 import android.widget.EditText;
 
 import java.util.regex.Matcher;

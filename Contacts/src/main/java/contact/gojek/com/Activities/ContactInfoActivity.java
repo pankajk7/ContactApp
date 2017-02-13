@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -26,16 +25,13 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
-import contact.gojek.com.Database.ContactDatabaseHelper;
 import contact.gojek.com.Database.ProfileInfoDatabaseHelper;
-import contact.gojek.com.DbResources.ProfileInfoTable;
 import contact.gojek.com.Model.ContactProfile;
 import contact.gojek.com.Model.Contacts;
 import contact.gojek.com.R;
 import contact.gojek.com.Rest.API.ContactAPI;
 import contact.gojek.com.Rest.NetworkObserver;
 import contact.gojek.com.Utils.NetworkAvailable;
-import contact.gojek.com.Utils.ToastUtil;
 import okhttp3.RequestBody;
 import rx.Observable;
 import rx.Observer;
@@ -255,7 +251,7 @@ public class ContactInfoActivity extends AppCompatActivity implements View.OnCli
         Intent intent;
         switch (view.getId()) {
             case R.id.btn_retry:
-                checkDbAndGetInfo();
+                fetchProfileInfo();
                 break;
             case R.id.tv_number:
                 intent = new Intent(Intent.ACTION_DIAL, Uri.fromParts(
