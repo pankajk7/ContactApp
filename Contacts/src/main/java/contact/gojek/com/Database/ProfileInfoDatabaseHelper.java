@@ -39,6 +39,7 @@ public class ProfileInfoDatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(ProfileInfoTable.COLUMN_FIRST_NAME, contactProfile.getFirstName());
         contentValues.put(ProfileInfoTable.COLUMN_LAST_NAME, contactProfile.getLastName());
         contentValues.put(ProfileInfoTable.COLUMN_EMAIL, contactProfile.getEmail());
+        contentValues.put(ProfileInfoTable.COLUMN_PHONE_NUMBER, contactProfile.getPhoneNumber());
         contentValues.put(ProfileInfoTable.COLUMN_PROFILE_PIC, contactProfile.getProfilePic());
         contentValues.put(ProfileInfoTable.COLUMN_FAVORITE, contactProfile.isFavorite()? 1 : 0);
         contentValues.put(ProfileInfoTable.COLUMN_CREATED_AT, contactProfile.getCreatedAt());
@@ -52,6 +53,7 @@ public class ProfileInfoDatabaseHelper extends SQLiteOpenHelper {
         contentValues.put(ProfileInfoTable.COLUMN_FIRST_NAME, contactProfile.getFirstName());
         contentValues.put(ProfileInfoTable.COLUMN_LAST_NAME, contactProfile.getLastName());
         contentValues.put(ProfileInfoTable.COLUMN_EMAIL, contactProfile.getEmail());
+        contentValues.put(ProfileInfoTable.COLUMN_PHONE_NUMBER, contactProfile.getPhoneNumber());
         contentValues.put(ProfileInfoTable.COLUMN_PROFILE_PIC, contactProfile.getProfilePic());
         contentValues.put(ProfileInfoTable.COLUMN_FAVORITE, contactProfile.isFavorite()? 1 : 0);
         contentValues.put(ProfileInfoTable.COLUMN_CREATED_AT, contactProfile.getCreatedAt());

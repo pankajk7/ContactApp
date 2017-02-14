@@ -42,6 +42,7 @@ import contact.gojek.com.Rest.NetworkObserver;
 import contact.gojek.com.Utils.ContactValidationUtil;
 import contact.gojek.com.Utils.DialogUtils;
 import contact.gojek.com.Utils.ImageUtil;
+import contact.gojek.com.Utils.NetworkAvailable;
 import contact.gojek.com.Utils.ToastUtil;
 import okhttp3.RequestBody;
 import rx.Observable;
@@ -103,7 +104,7 @@ public class AddContactActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void validateData() {
-        if (ContactValidationUtil.isValidData(this, etFirstName, etNumber))
+        if (ContactValidationUtil.isValidData(this, etFirstName, etNumber, etLastName, etEmail))
             saveContactInfo();
     }
 
@@ -240,6 +241,10 @@ public class AddContactActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onCachedImageFileReceived(final Bitmap bitmap, final File imageFile) {
+        if(!NetworkAvailable.isNetworkAvailable(AddContactActivity.this)) {
+            ToastUtil.show(AddContactActivity.this, getString(R.string.no_network));
+            return;
+        }
         // Using cloudinary to upload image to its server and get image url
         Map config = new HashMap();
         config.put("cloud_name", "dupm90oys");
@@ -271,7 +276,13 @@ public class AddContactActivity extends AppCompatActivity implements View.OnClic
             @Override
             protected void onPostExecute(Map map) {
                 super.onPostExecute(map);
-                if (map == null) return;
+                if (progressDialog != null && progressDialog.isShowing())
+                    progressDialog.dismiss();
+
+                if (map == null){
+                    ToastUtil.show(AddContactActivity.this, getString(R.string.failure_occur_message));
+                    return;
+                }
                 if (bitmap != null)
                     ivProfilePic.setImageBitmap(bitmap);
                 if (progressDialog != null && progressDialog.isShowing())

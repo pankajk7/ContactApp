@@ -17,6 +17,10 @@
     <string name="retry">Retry</string>
     <string name="first_name_validation_message">Please enter first name with atleast 3 characters</string>
     <string name="mobile_number_not_valid">Mobile Phone Number not valid</string>
+    <string name="please_enter_last_name">Please enter last name</string>
+    <string name="please_enter_email">Please enter email</string>
+    <string name="no_network">Network failure or no network</string>
+    <string name="failure_occur_message">Some failure occur, please try again</string>
 
     <!-- For setting tag in Adapter -->
     <item name="iv_tag" type="id" />
